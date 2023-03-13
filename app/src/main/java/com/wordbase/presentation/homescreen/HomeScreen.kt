@@ -21,7 +21,13 @@ import androidx.compose.ui.unit.sp
 import com.wordbase.R
 
 @Composable
-fun HomeScreen(onPlayClick: () -> Unit, onStoreClick: () -> Unit, onWordListClick: () -> Unit) {
+fun HomeScreen(
+    onPlayClick: () -> Unit,
+    onStoreClick: () -> Unit,
+    onWordListClick: () -> Unit,
+    onLeaderboardClick: () -> Unit,
+    onSettingsClick: () -> Unit,
+) {
     val whiteColor = Color(255, 255, 255, 255)
     val blackColor = Color(0, 0, 0, 255)
     val buttonColors = ButtonDefaults.buttonColors(containerColor = whiteColor, contentColor = blackColor)
@@ -33,18 +39,10 @@ fun HomeScreen(onPlayClick: () -> Unit, onStoreClick: () -> Unit, onWordListClic
         // Centered content
         Box(modifier = Modifier
             .fillMaxSize()
-            .weight(1f), contentAlignment = Alignment.Center) {
-            Image(
-                painter = painterResource(id = R.drawable.stadium),
-                contentDescription = "My Image",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.5f)) // Set the alpha value to 0.5f
-            )
+            .weight(1f),
+            contentAlignment = Alignment.Center
+        ) {
+            Background()
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -53,14 +51,14 @@ fun HomeScreen(onPlayClick: () -> Unit, onStoreClick: () -> Unit, onWordListClic
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Button(
-                        onClick = { /* handle sound button click */ },
+                        onClick = onLeaderboardClick,
                         colors = buttonColors,
                         shape = RoundedCornerShape(rad),
                         modifier = Modifier
                             .height(height)
                             .width(height)
                     ) {}
-                    Icon(Icons.Filled.Settings, contentDescription = "Leaderboard")
+                    Image(painter = painterResource(id = R.drawable.baseline_leaderboard_24), contentDescription = "Leaderboard")
                 }
                 Spacer(Modifier.weight(0.025f))
                 Box(contentAlignment = Alignment.Center) {
@@ -70,10 +68,10 @@ fun HomeScreen(onPlayClick: () -> Unit, onStoreClick: () -> Unit, onWordListClic
                         shape = RoundedCornerShape(rad),
                         modifier = Modifier
                             .height(height)
-                            .width(height*2)
+                            .width(height * 2)
                     ) {}
                     Row() {
-                        Icon(Icons.Filled.Settings, contentDescription = "Coins")
+                        Image(painter = painterResource(id = R.drawable.baseline_monetization_on_24), contentDescription = "Coins")
                         Text(text = "1.24k")
                     }
                 }
@@ -87,12 +85,12 @@ fun HomeScreen(onPlayClick: () -> Unit, onStoreClick: () -> Unit, onWordListClic
                             .height(height)
                             .width(height)
                     ) {}
-                    Icon(Icons.Filled.Settings, contentDescription = "Sound")
+                    Image(painter = painterResource(id = R.drawable.baseline_volume_up_24), contentDescription = "Sound")
                 }
                 Spacer(Modifier.weight(0.025f))
                 Box(contentAlignment = Alignment.Center) {
                     Button(
-                        onClick = { /* handle sound button click */ },
+                        onClick = onSettingsClick,
                         colors = buttonColors,
                         shape = RoundedCornerShape(rad),
                         modifier = Modifier
@@ -153,5 +151,5 @@ fun HomeScreen(onPlayClick: () -> Unit, onStoreClick: () -> Unit, onWordListClic
 @Preview(showBackground = true)
 @Composable
 fun PreviewHomeScreen() {
-    HomeScreen({}, {}, {})
+    HomeScreen({}, {}, {}, {}, {})
 }

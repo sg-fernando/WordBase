@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.WordBase" parent="android:Theme.Material.Light.NoActionBar" />
+<!--    <style name="Theme.WordBase" parent="android:Theme.Material.Light.NoActionBar" />-->
+    <style name="Theme.WordBase" parent="android:Theme.Material.Light.NoActionBar.Fullscreen">
+        <!-- Change the primary color -->
+        <!-- Change the font family -->
+        <item name="android:fontFamily">@font/glegoo</item>
+        <!-- Change other attributes as needed -->
+    </style>
 </resources>
