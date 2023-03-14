@@ -1,4 +1,4 @@
-package com.wordbase.presentation.homescreen
+package com.wordbase.presentation.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

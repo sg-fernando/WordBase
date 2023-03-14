@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.wordbase.presentation.homescreen.HomeScreen
 import com.wordbase.presentation.navigation.WordbaseNavHost
 import com.wordbase.presentation.viewmodel.WordbaseViewModel
 import com.wordbase.ui.theme.WordBaseTheme
@@ -31,7 +30,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    WordbaseNavHost(navController = navController, wordbaseViewModel = mViewModel)
+                    val context = this
+                    WordbaseNavHost(navController = navController, wordbaseViewModel = mViewModel, context = context)
                 }
             }
         }
