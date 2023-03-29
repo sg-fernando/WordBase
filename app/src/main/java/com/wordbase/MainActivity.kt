@@ -21,6 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val mViewModel = WordbaseViewModel()
+        val context = this
 
         setContent {
             WordBaseTheme {
@@ -30,7 +31,6 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    val context = this
                     WordbaseNavHost(navController = navController, wordbaseViewModel = mViewModel, context = context)
                 }
             }

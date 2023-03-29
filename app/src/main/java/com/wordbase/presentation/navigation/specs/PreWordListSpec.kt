@@ -31,8 +31,8 @@ object PreWordListSpec : IScreenSpec {
             onPreMadeListsClick = {
                 // nothing, already here
             },
-            onWordListClick = {
-
+            onWordListClick = { wordListItemId ->
+                navController.navigate(route = "detail_wordlist/$wordListItemId")
             },
             onAddClick = {
                 Toast.makeText(context, "Will add wordlist to 'My Lists'",Toast.LENGTH_SHORT).show()

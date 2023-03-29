@@ -3,12 +3,13 @@ package com.wordbase.presentation.navigation.specs
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import com.wordbase.presentation.screens.WordListDetail
 import com.wordbase.presentation.screens.WordListScreen
 import com.wordbase.presentation.viewmodel.WordbaseViewModel
 
-object WordListSpec : IScreenSpec {
+object WordListDetailSpec : IScreenSpec {
     override val route: String
-        get() = "wordlist"
+        get() = "detail_wordlist/{wordListItemId}"
 
     @Composable
     override fun Content(
@@ -16,23 +17,18 @@ object WordListSpec : IScreenSpec {
         navController: NavHostController,
         context: Context
     ) {
-        WordListScreen(
+        val navBackStackEntry = navController.currentBackStackEntry
+        val arguments = navBackStackEntry?.arguments
+        val wordListItemId = 0
+        if (arguments != null) {
+            val wordListItemId = arguments.getString("wordListItemId")
+        }
+        WordListDetail(
             wordbaseViewModel = wordbaseViewModel,
+            wordListItem = wordbaseViewModel.getWordListItem(wordListItemId),
             onBackClick = {
                 navController.navigate(route = HomeSpec.route)
             },
-            onMyListClick = {
-                // nothing, already here
-            },
-            onCreateNewListClick = {
-                navController.navigate("create_wordlist")
-            },
-            onPreMadeListsClick = {
-                navController.navigate("pre_wordlist")
-            },
-            onWordListClick = {wordListItemId ->
-                navController.navigate(route = "detail_wordlist/$wordListItemId")
-            }
         )
     }
 }

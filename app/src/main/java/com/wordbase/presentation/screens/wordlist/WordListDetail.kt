@@ -19,10 +19,8 @@ import com.wordbase.presentation.viewmodel.WordbaseViewModel
 @Composable
 fun WordListDetail(
     wordbaseViewModel: WordbaseViewModel,
-    onBackClick: () -> Unit,
-    onMyListClick: () -> Unit,
-    onCreateNewListClick: () -> Unit,
-    onPreMadeListsClick: () -> Unit
+    wordListItem: WordListItem,
+    onBackClick: () -> Unit
 ) {
     val buttonColors = ButtonDefaults.buttonColors(containerColor = Constants.white, contentColor = Constants.black)
     Column(Modifier.fillMaxSize()) {
@@ -36,24 +34,21 @@ fun WordListDetail(
             ScreenTemplate(
                 onBackClick = onBackClick,
                 topBarContent = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        WordListTopBar(
-                            onMyListClick = onMyListClick,
-                            onCreateNewListClick = onCreateNewListClick,
-                            onPreMadeListsClick = onPreMadeListsClick,
-                            disabled = 1
+
+                        WordListItem(
+                            item = wordListItem,
+                            onWordListClick = {}
                         )
-                    }
+
                 }
             ) {
                 LazyColumn(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    items(wordbaseViewModel.wordlists) { item ->
-                        WordListItem(item = item)
+                    items(wordListItem.words) { word ->
+                        Text(text = word)
                     }
                 }
             }
@@ -62,7 +57,7 @@ fun WordListDetail(
 }
 
 @Composable
-fun WordListItdem(item: WordListItem) {
+fun WordItem(item: WordListItem) {
     val buttonColors = ButtonDefaults.buttonColors(containerColor = Constants.white, contentColor = Constants.black)
     Row(
         modifier = Modifier.fillMaxSize(),
