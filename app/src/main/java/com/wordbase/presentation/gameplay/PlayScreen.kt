@@ -7,25 +7,30 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.viewinterop.AndroidView
+import com.wordbase.presentation.viewmodel.WordbaseViewModel
 
 @Composable
-fun PlayScreen() {
-//    val surfaceWidth = remember { mutableStateOf(0f) }
-//    val surfaceHeight = remember { mutableStateOf(0f) }
-//
-//    Canvas(modifier = Modifier.fillMaxSize()) {
-//        surfaceWidth.value = size.width
-//        surfaceHeight.value = size.height
-//
-//        // Call custom drawing functions
-//        drawGameObjects(this)
-//    }
-    AndroidView(
-        factory = { context ->
-            GameView(context, attrs = null)
-        },
-        modifier = Modifier.fillMaxSize()
-    )
+fun PlayScreen(wordbaseViewModel: WordbaseViewModel) {
+
+    when (wordbaseViewModel.currentView.value) {
+        is GameViewType.BatView -> {
+            AndroidView(
+                factory = { context ->
+                    BatView(context, attrs = null)
+                },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+//        is GameViewType.PitcherView -> {
+//            AndroidView(
+//                factory = { context ->
+//                    PitcherView(context, attrs = null)
+//                },
+//                modifier = Modifier.fillMaxSize()
+//            )
+//        }
+        else -> {}
+    }
 }
 
 private fun drawGameObjects(drawScope: DrawScope) {

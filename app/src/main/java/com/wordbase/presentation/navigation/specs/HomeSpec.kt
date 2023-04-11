@@ -35,7 +35,8 @@ object HomeSpec : IScreenSpec {
             },
             onCoinsClick = {
                 Toast.makeText(context,"Will be an easter egg after a certain number of clicks", Toast.LENGTH_SHORT).show()
-            }
+            },
+            onSoundClick = { b: Boolean -> wordbaseViewModel.playMuteSound(b) }
         )
     }
 }

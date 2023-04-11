@@ -1,5 +1,6 @@
 package com.wordbase
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,11 +18,16 @@ import com.wordbase.ui.theme.WordBaseTheme
 
 
 class MainActivity : ComponentActivity() {
+    lateinit var mediaPlayer: MediaPlayer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val mViewModel = WordbaseViewModel()
         val context = this
+        mediaPlayer = MediaPlayer.create(context, R.raw.vintage_organ)
+        mediaPlayer.start()
+        mediaPlayer.isLooping = true
+        val mViewModel = WordbaseViewModel(mediaPlayer)
+
 
         setContent {
             WordBaseTheme {
@@ -35,6 +41,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.release()
     }
 }
 

@@ -16,6 +16,6 @@ object PlaySpec : IScreenSpec {
         navController: NavHostController,
         context: Context
     ) {
-        PlayScreen()
+        PlayScreen(wordbaseViewModel = wordbaseViewModel)
     }
 }

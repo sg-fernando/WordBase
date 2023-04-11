@@ -27,6 +27,7 @@ fun HomeScreen(
     onLeaderboardClick: () -> Unit,
     onSettingsClick: () -> Unit,
     onCoinsClick: () -> Unit,
+    onSoundClick: (Boolean) -> Unit
 ) {
     val soundIcon = remember { mutableStateOf(R.drawable.baseline_volume_up_24) }
     val buttonColors = ButtonDefaults.buttonColors(containerColor = Constants.white, contentColor = Constants.black)
@@ -80,8 +81,10 @@ fun HomeScreen(
                         onClick = {
                               if (soundIcon.value == R.drawable.baseline_volume_up_24) {
                                   soundIcon.value = R.drawable.baseline_volume_off_24
+                                  onSoundClick(false)
                               } else {
                                   soundIcon.value = R.drawable.baseline_volume_up_24
+                                  onSoundClick(true)
                               }
                         },
                         colors = buttonColors,
@@ -156,5 +159,5 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 fun PreviewHomeScreen() {
-    HomeScreen({}, {}, {}, {}, {}, {})
+    HomeScreen({}, {}, {}, {}, {}, {}, {})
 }
