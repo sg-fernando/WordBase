@@ -11,7 +11,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.wordbase.R
 
-class BatView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
+class BatView(context: Context, attrs: AttributeSet?, private val onHit: (extra: Int) -> Unit) : View(context, attrs) {
 
     private val backgroundImage: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.field)
     private val backgroundPaint = Paint()
@@ -27,25 +27,54 @@ class BatView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     private var ballX = 0f
     private var ballY = 0f
 
-    private val BALL_ANIMATION_DURATION = 2250L // 1 second
-    private var ballAnimator: ValueAnimator? = null
+    private var goodHitPopup = false
+    private val popupTextPaint = Paint().apply {
+        color = Color.WHITE
+        textSize = 200f
+        textAlign = Paint.Align.CENTER
+        typeface = Typeface.DEFAULT_BOLD
+    }
 
-    private fun ballThrownAnimation() {
+    private var ballAnimator: ValueAnimator? = null
+    private var ballThrown: Boolean = false
+    private var randomThrowTime: Long = 0L
+    private var randomThrowDuration: Long = 0L
+
+    private fun scheduleRandomThrow() {
+        if (!ballThrown) {
+            val minDelay = 5000L // 5 second
+            val maxDelay = 9000L // 9 seconds
+            randomThrowTime = (minDelay..maxDelay).random()
+            val minDuration = 2000L
+            val maxDuration = 3000L
+            randomThrowDuration = (minDuration..maxDuration).random()
+
+            ballAnimator?.cancel()
+            ballThrownAnimation(randomThrowTime, randomThrowDuration)
+        }
+    }
+
+
+    private fun ballThrownAnimation(throwDelay: Long, throwDuration: Long) {
         // Cancel any existing animator
         ballAnimator?.cancel()
 
         // Create a new animator to animate the ball size
         ballAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
-            duration = BALL_ANIMATION_DURATION
+            duration = throwDuration
+            // Add a delay before starting the animation
+            startDelay = throwDelay
             addUpdateListener { valueAnimator ->
                 // Update the sizeDivider property with the animated value
                 val progress = valueAnimator.animatedValue as Float
                 sizeDivider = (100 * (1 - progress)).toInt()
 
                 originalBallImage = when {
-                    progress < 0.7f -> redBall
-                    progress < 0.90 -> yellowBall
-                    else -> greenBall
+                    progress < 0.5 -> redBall
+                    progress < 0.75 -> yellowBall
+                    progress < 0.93 -> greenBall
+                    progress < 0.96 -> yellowBall
+                    else -> redBall
                 }
                 // Redraw the view
                 invalidate()
@@ -56,16 +85,20 @@ class BatView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
                     // Animation started
                     sizeDivider = 100
                     originalBallImage = normalBall
+                    ballThrown = true
                 }
 
                 override fun onAnimationEnd(animation: Animator) {
                     // Animation ended, reset the sizeDivider property
                     sizeDivider = 100
                     originalBallImage = normalBall
+                    ballThrown = false
+                    scheduleRandomThrow()
                 }
 
                 override fun onAnimationCancel(animation: Animator) {
                     // Animation cancelled
+                    scheduleRandomThrow()
                 }
 
                 override fun onAnimationRepeat(animation: Animator) {
@@ -103,7 +136,7 @@ class BatView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     init {
         // Initialize game objects, state, and animations
-        // ...
+        scheduleRandomThrow()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -155,6 +188,14 @@ class BatView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         batMatrix.setRotate(batRotationAngle, batX, batY)
         batMatrix.postTranslate(batX, batY)
         canvas.drawBitmap(batImage, batMatrix, batPaint)
+
+        if (goodHitPopup) {
+            val popupText = "Good hit!"
+            val centerX = width / 2f
+            val centerY = height / 2f
+            canvas.drawText(popupText, centerX, centerY, popupTextPaint)
+        }
+
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -167,7 +208,39 @@ class BatView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
                 // Update the bat's rotation angle
                 batRotationAngle = -180f * (1f - event.y / height)
 
-                ballThrownAnimation()
+                if (sizeDivider != 0) {
+                    // Check if the user's Y position is within the middle 1/5 of the screen
+                    val touchY = event.y
+                    val screenHeight = height.toFloat()
+                    val minY = screenHeight * 2 / 7
+                    val maxY = screenHeight * 3 / 7
+
+                    if (touchY >= minY && touchY <= maxY) {
+                        if (originalBallImage == greenBall || originalBallImage == yellowBall) {
+                            // Do something when the user hits the ball with green or yellow color
+                            var extra = 0
+                            if (originalBallImage == greenBall) {
+                                extra = 2
+                            } else {
+                                extra = 1
+                            }
+                            println("HIT")
+                            goodHitPopup = true
+                            invalidate()
+
+                            // Hide the popup and launch another view after a short delay
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                goodHitPopup = false
+                                invalidate()
+                                onHit(extra)
+                            }, 2000) // 1-second delay
+
+                        } else {
+                            // Notify the ViewModel that it's a strike
+                        }
+                    }
+                }
+
 
                 // Redraw the view
                 invalidate()
@@ -176,7 +249,6 @@ class BatView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         }
         return true
     }
-
 
     private fun updateGameState() {
         // Update game state based on user interactions and game events

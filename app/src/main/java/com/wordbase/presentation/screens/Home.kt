@@ -60,20 +60,20 @@ fun HomeScreen(
                 }
                 Spacer(Modifier.weight(0.025f))
                 Box(contentAlignment = Alignment.Center) {
-                    Button(
-                        onClick = onCoinsClick,
-                        colors = buttonColors,
-                        shape = RoundedCornerShape(Constants.borderRadius),
-                        modifier = Modifier
-                            .height(Constants.height)
-                            .width(Constants.height * 2)
-                    ) {}
-                    Row() {
-                        Image(painter = painterResource(id = R.drawable.baseline_monetization_on_24), contentDescription = stringResource(
-                            id = R.string.coins
-                        ))
-                        Text(text = "1.24k")
-                    }
+//                    Button(
+//                        onClick = onCoinsClick,
+//                        colors = buttonColors,
+//                        shape = RoundedCornerShape(Constants.borderRadius),
+//                        modifier = Modifier
+//                            .height(Constants.height)
+//                            .width(Constants.height * 2)
+//                    ) {}
+//                    Row() {
+//                        Image(painter = painterResource(id = R.drawable.baseline_monetization_on_24), contentDescription = stringResource(
+//                            id = R.string.coins
+//                        ))
+//                        Text(text = "1.24k")
+//                    }
                 }
                 Spacer(Modifier.weight(1f))
                 Box(contentAlignment = Alignment.Center) {
@@ -126,17 +126,17 @@ fun HomeScreen(
                 ) {
                     Text(stringResource(id = R.string.play), color = Constants.black, fontSize = Constants.buttonFontSize, fontWeight = FontWeight.Medium)
                 }
-                Spacer(Modifier.height(16.dp))
-                Button(
-                    colors = buttonColors,
-                    onClick = onStoreClick,
-                    shape = RoundedCornerShape(Constants.borderRadius),
-                    modifier = Modifier
-                        .width(Constants.width)
-                        .height(Constants.height)
-                ) {
-                    Text(stringResource(id = R.string.store), color = Constants.black, fontSize = Constants.buttonFontSize, fontWeight = FontWeight.Medium)
-                }
+//                Spacer(Modifier.height(16.dp))
+//                Button(
+//                    colors = buttonColors,
+//                    onClick = onStoreClick,
+//                    shape = RoundedCornerShape(Constants.borderRadius),
+//                    modifier = Modifier
+//                        .width(Constants.width)
+//                        .height(Constants.height)
+//                ) {
+//                    Text(stringResource(id = R.string.store), color = Constants.black, fontSize = Constants.buttonFontSize, fontWeight = FontWeight.Medium)
+//                }
                 Spacer(Modifier.height(16.dp))
                 Button(
                     colors = buttonColors,

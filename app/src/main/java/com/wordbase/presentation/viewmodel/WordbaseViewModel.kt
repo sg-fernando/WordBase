@@ -27,7 +27,7 @@ class WordbaseViewModel (
         added = 1
     )
 
-    private val mCurrentView = mutableStateOf<GameViewType>(GameViewType.SpellView)
+    private val mCurrentView = mutableStateOf<GameViewType>(GameViewType.BatView)
     val currentView: State<GameViewType>
     get() = mCurrentView
 

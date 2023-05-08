@@ -11,12 +11,13 @@ import com.wordbase.presentation.viewmodel.WordbaseViewModel
 
 @Composable
 fun PlayScreen(wordbaseViewModel: WordbaseViewModel) {
-
     when (wordbaseViewModel.currentView.value) {
         is GameViewType.BatView -> {
             AndroidView(
                 factory = { context ->
-                    BatView(context, attrs = null)
+                    BatView(context, attrs = null, onHit = {
+                        wordbaseViewModel.switchToSpellView()
+                    })
                 },
                 modifier = Modifier.fillMaxSize()
             )
