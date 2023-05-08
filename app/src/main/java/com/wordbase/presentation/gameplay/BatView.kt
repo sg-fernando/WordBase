@@ -50,6 +50,7 @@ class BatView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
                 // Redraw the view
                 invalidate()
             }
+
             addListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator) {
                     // Animation started

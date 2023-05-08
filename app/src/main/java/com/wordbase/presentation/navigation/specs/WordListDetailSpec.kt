@@ -27,7 +27,7 @@ object WordListDetailSpec : IScreenSpec {
             wordbaseViewModel = wordbaseViewModel,
             wordListItem = wordbaseViewModel.getWordListItem(wordListItemId),
             onBackClick = {
-                navController.navigate(route = WordListSpec.route)
+                navController.popBackStack()
             },
         )
     }

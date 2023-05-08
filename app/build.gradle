@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -41,7 +42,7 @@ android {
     }
     packagingOptions {
         resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            excludes += '/M`ETA-INF/{AL2.0,LGPL2.1}'
         }
     }
 }
@@ -66,4 +67,5 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
     implementation 'androidx.room:room-runtime:2.5.0'
     implementation 'androidx.room:room-ktx:2.5.0'
+    kapt 'androidx.room:room-compiler:2.5.0'
 }

@@ -7,18 +7,18 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import com.wordbase.presentation.navigation.WordbaseNavHost
 import com.wordbase.presentation.viewmodel.WordbaseViewModel
+import com.wordbase.presentation.viewmodel.WordbaseViewModelFactory
 import com.wordbase.ui.theme.WordBaseTheme
 
 
 class MainActivity : ComponentActivity() {
     lateinit var mediaPlayer: MediaPlayer
+    private lateinit var mViewModel: WordbaseViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -26,8 +26,9 @@ class MainActivity : ComponentActivity() {
         mediaPlayer = MediaPlayer.create(context, R.raw.vintage_organ)
         mediaPlayer.start()
         mediaPlayer.isLooping = true
-        val mViewModel = WordbaseViewModel(mediaPlayer)
 
+        val factory = WordbaseViewModelFactory(this, mediaPlayer)
+        mViewModel = ViewModelProvider(this, factory)[factory.getViewModelClass()]
 
         setContent {
             WordBaseTheme {
@@ -46,18 +47,5 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.release()
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    WordBaseTheme {
-        Greeting("Android")
     }
 }

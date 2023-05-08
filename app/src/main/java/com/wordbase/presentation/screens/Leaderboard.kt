@@ -19,7 +19,7 @@ import com.wordbase.data.LeaderboardItem
 import com.wordbase.presentation.viewmodel.WordbaseViewModel
 
 @Composable
-fun LeaderboardScreen(wordbaseViewModel: WordbaseViewModel, onBackClick: () -> Unit) {
+fun LeaderboardScreen(leaderboard: List<LeaderboardItem>, onBackClick: () -> Unit) {
     Column(Modifier.fillMaxSize()) {
         // Centered content
         Box(
@@ -43,7 +43,7 @@ fun LeaderboardScreen(wordbaseViewModel: WordbaseViewModel, onBackClick: () -> U
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
-                    items(wordbaseViewModel.leaderboard) { item ->
+                    items(leaderboard) { item ->
                         LeaderboardListItem(item = item)
                     }
                 }
@@ -84,18 +84,18 @@ fun LeaderboardListItem(item: LeaderboardItem) {
     }
 }
 
-@Preview
-@Composable
-fun LeaderboardPreview() {
-    val m = WordbaseViewModel()
-    LeaderboardScreen(wordbaseViewModel = m) {
-        
-    }
-}
-
-@Preview
-@Composable
-fun LeaderboardListItemPreview() {
-    val m = WordbaseViewModel()
-    LeaderboardListItem(item = m.leaderboard[0])
-}
+//@Preview
+//@Composable
+//fun LeaderboardPreview() {
+//    val m = WordbaseViewModel()
+//    LeaderboardScreen(wordbaseViewModel = m) {
+//
+//    }
+//}
+//
+//@Preview
+//@Composable
+//fun LeaderboardListItemPreview() {
+//    val m = WordbaseViewModel()
+//    LeaderboardListItem(item = m.leaderboard[0])
+//}
