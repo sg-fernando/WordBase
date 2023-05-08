@@ -14,11 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.wordbase.data.Constants
 import com.wordbase.data.WordListItem
-import com.wordbase.presentation.viewmodel.WordbaseViewModel
 
 @Composable
 fun WordListDetail(
-    wordbaseViewModel: WordbaseViewModel,
     wordListItem: WordListItem,
     onBackClick: () -> Unit
 ) {
@@ -34,7 +32,6 @@ fun WordListDetail(
             ScreenTemplate(
                 onBackClick = onBackClick,
                 topBarContent = {
-
                         WordListItem(
                             item = wordListItem,
                             onWordListClick = {}

@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.wordbase.data.LeaderboardItem
+import com.wordbase.data.WordListItem
 
 
-@Database(entities = [LeaderboardItem :: class], version = 1)
+@Database(entities = [LeaderboardItem::class, WordListItem::class], version = 1)
+@TypeConverters(Converters::class)
 abstract class WordbaseDatabase: RoomDatabase() {
     companion object {
         @Volatile private var INSTANCE: WordbaseDatabase? = null

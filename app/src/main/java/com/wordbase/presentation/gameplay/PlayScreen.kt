@@ -29,6 +29,14 @@ fun PlayScreen(wordbaseViewModel: WordbaseViewModel) {
                 modifier = Modifier.fillMaxSize()
             )
         }
+        is GameViewType.PitcherView -> {
+            AndroidView(
+                factory = { context ->
+                    PitcherView(context, attrs = null)
+                },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
         else -> {}
     }
 }

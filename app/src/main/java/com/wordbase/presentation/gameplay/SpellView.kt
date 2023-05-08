@@ -1,20 +1,13 @@
 package com.wordbase.presentation.gameplay
-import android.animation.Animator
-import android.animation.ArgbEvaluator
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.os.Handler
 import android.os.Looper
 import android.speech.tts.TextToSpeech
-import android.text.InputType
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputConnection
-import android.view.inputmethod.InputMethodManager
 import com.wordbase.R
 import java.util.*
 
@@ -102,6 +95,7 @@ class SpellView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         textToSpeech.shutdown()
     }
 
+    @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         // draw background
@@ -161,8 +155,12 @@ class SpellView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         val deleteButtonWidth = 300f
         val deleteButtonHeight = 150f
         val deleteButtonLeft = width - deleteButtonWidth - 60f
-        val deleteButtonTop = topBias
-        val deleteButtonRect = RectF(deleteButtonLeft, deleteButtonTop, deleteButtonLeft + deleteButtonWidth, deleteButtonTop + deleteButtonHeight)
+        val deleteButtonRect = RectF(
+            deleteButtonLeft,
+            topBias,
+            deleteButtonLeft + deleteButtonWidth,
+            topBias + deleteButtonHeight
+        )
         canvas.drawRect(deleteButtonRect, keyboardPaint)
         canvas.drawText("Delete", deleteButtonRect.centerX()-keyPaint.textSize - (keyPaint.textSize / 3), deleteButtonRect.centerY() + keyPaint.textSize / 2, keyPaint)
 
@@ -213,8 +211,12 @@ class SpellView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
                 val deleteButtonWidth = 300f
                 val deleteButtonHeight = 150f
                 val deleteButtonLeft = width - deleteButtonWidth - 60f
-                val deleteButtonTop = topBias
-                val deleteButtonRect = RectF(deleteButtonLeft, deleteButtonTop, deleteButtonLeft + deleteButtonWidth, deleteButtonTop + deleteButtonHeight)
+                val deleteButtonRect = RectF(
+                    deleteButtonLeft,
+                    topBias,
+                    deleteButtonLeft + deleteButtonWidth,
+                    topBias + deleteButtonHeight
+                )
                 if (deleteButtonRect.contains(event.x, event.y)) {
                     if (currentLetterIndex != 0) {
                         currentLetterIndex--

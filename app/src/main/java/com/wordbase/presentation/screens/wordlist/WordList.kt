@@ -14,16 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.wordbase.data.Constants
 import com.wordbase.data.WordListItem
-import com.wordbase.presentation.viewmodel.WordbaseViewModel
 
 @Composable
 fun WordListScreen(
-    wordbaseViewModel: WordbaseViewModel,
+    wordlists: List<WordListItem>,
     onBackClick: () -> Unit,
     onMyListClick: () -> Unit,
     onCreateNewListClick: () -> Unit,
     onPreMadeListsClick: () -> Unit,
-    onWordListClick: (Int) -> Unit
+    onWordListClick: (String) -> Unit
 ) {
     val buttonColors = ButtonDefaults.buttonColors(containerColor = Constants.white, contentColor = Constants.black)
     Column(Modifier.fillMaxSize()) {
@@ -53,10 +52,17 @@ fun WordListScreen(
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
-                    items(wordbaseViewModel.wordlists) { item ->
+//                    items(wordlists) { item ->
+//                        WordListItem(
+//                            item = item,
+//                            onWordListClick = onWordListClick
+//                        )
+//                    }
+                    items(wordlists.size) { index ->
                         WordListItem(
-                            item = item,
-                            onWordListClick = onWordListClick
+                            item = wordlists[index],
+                            onWordListClick = onWordListClick,
+                            id = index+1
                         )
                     }
                 }
@@ -66,7 +72,7 @@ fun WordListScreen(
 }
 
 @Composable
-fun WordListItem(item: WordListItem, onWordListClick: (Int) -> Unit) {
+fun WordListItem(item: WordListItem, onWordListClick: (String) -> Unit, id: Int = 0) {
     val buttonColors = ButtonDefaults.buttonColors(containerColor = Constants.white, contentColor = Constants.black)
     Row(
         modifier = Modifier.fillMaxSize(),
@@ -86,7 +92,7 @@ fun WordListItem(item: WordListItem, onWordListClick: (Int) -> Unit) {
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ){
-                    Text(text = item.id.toString()+".")
+                    Text(text = "$id.")
                     Button(
                         onClick = { onWordListClick(item.id) },
                         colors = buttonColors,

@@ -17,7 +17,10 @@ object CreateWordListSpec : IScreenSpec {
         context: Context
     ) {
         CreateWordListScreen(
-            wordbaseViewModel = wordbaseViewModel,
+            createWordList = { name: String, words: String ->
+                wordbaseViewModel.createWordList(name, words)
+                navController.navigate(route = "wordlist")
+            },
             onBackClick = {
                 navController.navigate(route = HomeSpec.route)
             },

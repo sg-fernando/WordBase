@@ -17,6 +17,7 @@ object HomeSpec : IScreenSpec {
         navController: NavHostController,
         context: Context
     ) {
+        wordbaseViewModel.getWordListItem("")
         HomeScreen(
             onPlayClick = {
                 navController.navigate(route = PlaySpec.route)

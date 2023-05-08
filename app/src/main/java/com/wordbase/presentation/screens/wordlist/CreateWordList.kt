@@ -8,13 +8,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.wordbase.R
 import com.wordbase.data.Constants
 import com.wordbase.presentation.viewmodel.WordbaseViewModel
 
 @Composable
 fun CreateWordListScreen(
-    wordbaseViewModel: WordbaseViewModel,
+    createWordList: (String, String) -> Unit,
     onBackClick: () -> Unit,
     onMyListClick: () -> Unit,
     onCreateNewListClick: () -> Unit,
@@ -47,9 +48,19 @@ fun CreateWordListScreen(
                 }
             ) {
                 Column() {
-                    Row() {
+                    Row {
                         Text(text = stringResource(id = R.string.list_title))
                         TextField(value = title.value, onValueChange = { newTitle -> title.value = newTitle })
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Button(
+                            onClick = {
+                                createWordList(title.value, words.value)
+                                onBackClick()
+                            },
+                            colors = buttonColors
+                        ) {
+                            Text(text = stringResource(id = R.string.create))
+                        }
                     }
                     Row() {
                         Column() {

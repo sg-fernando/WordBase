@@ -2,9 +2,9 @@ package com.wordbase.presentation.navigation.specs
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
 import com.wordbase.presentation.screens.WordListDetail
-import com.wordbase.presentation.screens.WordListScreen
 import com.wordbase.presentation.viewmodel.WordbaseViewModel
 
 object WordListDetailSpec : IScreenSpec {
@@ -19,16 +19,20 @@ object WordListDetailSpec : IScreenSpec {
     ) {
         val navBackStackEntry = navController.currentBackStackEntry
         val arguments = navBackStackEntry?.arguments
-        val wordListItemId = 0
         if (arguments != null) {
             val wordListItemId = arguments.getString("wordListItemId")
+            if (wordListItemId != null) {
+                wordbaseViewModel.getWordListItem(wordListItemId)
+            }
         }
-        WordListDetail(
-            wordbaseViewModel = wordbaseViewModel,
-            wordListItem = wordbaseViewModel.getWordListItem(wordListItemId),
-            onBackClick = {
-                navController.popBackStack()
-            },
-        )
+        val currentWordListItemState = wordbaseViewModel.currentWordListState.collectAsState()
+        currentWordListItemState.value?.let {
+            WordListDetail(
+                wordListItem = it,
+                onBackClick = {
+                    navController.popBackStack()
+                },
+            )
+        }
     }
 }

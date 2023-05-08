@@ -29,32 +29,20 @@ private constructor(private val dao: Dao,
         }
     }
 
+    fun getLeaderboard(): Flow<List<LeaderboardItem>> =  dao.getLeaderboard()
+    fun getInstalledWordList(): Flow<List<WordListItem>> =  dao.getInstalledWordList()
+    fun getWordList(): Flow<List<WordListItem>> =  dao.getNotInstalledWordList()
 
-//    init {
-//        Log.d(LOG_TAG, "initializing repository list")
-//        val characterList = mutableListOf<SamodelkinCharacter>()
-//        for(i in 1..10) {
-//            characterList += CharacterGenerator.generateRandomCharacter(context)
-//        }
-//        characters = characterList.toList()
-//    }
-
-    fun getLeaderboard(): Flow<List<LeaderboardItem>> =  dao.getLeaderboardItem()
-//
-//    suspend fun getCharacter(uuid: UUID): SamodelkinCharacter? = samodelkinDao.getCharacterById(uuid)
-//
-    fun addLocationWeather(leaderboardItem: LeaderboardItem){
-        coroutineScope.launch{
-            dao.addLeaderboardItem(leaderboardItem)
+    fun updateWordListItem(wordList: WordListItem) {
+        coroutineScope.launch {
+            dao.updateWordListItem(wordList)
         }
     }
+    suspend fun getWordListById(id: String): WordListItem? = dao.getWordListById(id)
 
-//
-//    fun deleteCharacter(samodelkinCharacter: SamodelkinCharacter) {
-//        coroutineScope.launch {
-//            samodelkinDao.deleteCharacter(samodelkinCharacter)
-//        }
-//
-//    }
-
+    fun addWordList(wordList: WordListItem){
+        coroutineScope.launch{
+            dao.addWordListItem(wordList)
+        }
+    }
 }

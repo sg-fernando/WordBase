@@ -2,6 +2,7 @@ package com.wordbase.presentation.navigation.specs
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
 import com.wordbase.presentation.screens.WordListScreen
 import com.wordbase.presentation.viewmodel.WordbaseViewModel
@@ -16,8 +17,9 @@ object WordListSpec : IScreenSpec {
         navController: NavHostController,
         context: Context
     ) {
+        val installedWordListState = wordbaseViewModel.installedWordListState.collectAsState()
         WordListScreen(
-            wordbaseViewModel = wordbaseViewModel,
+            wordlists = installedWordListState.value,
             onBackClick = {
                 navController.navigate(route = HomeSpec.route)
             },

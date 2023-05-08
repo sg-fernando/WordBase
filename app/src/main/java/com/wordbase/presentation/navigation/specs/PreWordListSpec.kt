@@ -3,6 +3,7 @@ package com.wordbase.presentation.navigation.specs
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
 import com.wordbase.presentation.screens.PreWordListScreen
 import com.wordbase.presentation.viewmodel.WordbaseViewModel
@@ -17,8 +18,9 @@ object PreWordListSpec : IScreenSpec {
         navController: NavHostController,
         context: Context
     ) {
+        val wordListState = wordbaseViewModel.wordListState.collectAsState()
         PreWordListScreen(
-            wordbaseViewModel = wordbaseViewModel,
+            wordlists = wordListState.value,
             onBackClick = {
                 navController.navigate(route = HomeSpec.route)
             },
@@ -34,8 +36,9 @@ object PreWordListSpec : IScreenSpec {
             onWordListClick = { wordListItemId ->
                 navController.navigate(route = "detail_wordlist/$wordListItemId")
             },
-            onAddClick = {
-                Toast.makeText(context, "Will add wordlist to 'My Lists'",Toast.LENGTH_SHORT).show()
+            onAddClick = { item ->
+                val updatedWordListItem = item.copy(added = 1)
+                wordbaseViewModel.updateWordListItem(updatedWordListItem)
             }
         )
     }
